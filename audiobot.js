@@ -7,6 +7,7 @@ var platform = os.platform();
 if(platform === 'win32') {
     var winsay = require('winsay');
 }
+var customMessages = require('./customMessages.js');
 
 
 //use this to set whether feedback bot is listening. If he's not, feedback will not be given - on at start.
@@ -73,7 +74,7 @@ slack.on('message', function(message) {
 
     if(message.type === 'message') {
         //get message text
-        var messageText = message.text;
+        var messageText = message.text.toLowerCase();
         var outputDevice = '';
         var player = 'afplay ';
         if(messageText) {
@@ -104,17 +105,29 @@ slack.on('message', function(message) {
                     if(existsMp3) {
                         exec(player + outputDevice + ' ' + toPlayMp3);
                         played = 'played';
-                        channel.send('Played sound: "' + toPlay + '"');
                         console.log('playing: ' + toPlayMp3);
                     }
                 });
                 fs.exists(toPlayWav,function(existsWav) { //wav version of loop
                     if(existsWav) {
                         exec(player + outputDevice + ' ' + toPlayWav);
-                        channel.send('Played sound: "' + toPlay + '"');
                         console.log('playing: ' + toPlayWav);
                     }
                 });
+            }
+
+            for (let i = 0, l = customMessages.length; i < l; i++) {
+              for (let ii = 0, ll = customMessages[i]['messages'].length; ii < ll; ii++) {
+                console.log(message.text);
+                console.log(customMessages[i]['messages'][ii]);
+                customMessage = message.text.indexOf(customMessages[i]['messages'][ii]);
+                let toPlay = customMessages[i]['sound'];
+                if((customMessage > -1) && (started === true)) {
+                    exec(player + outputDevice + ' ' + 'sounds/' + toPlay + '.mp3');
+                    played = 'played';
+                    console.log('playing: ' + toPlay);
+                }
+              }
             }
 
             if(isDirect(slack.self.id, message.text)) {
