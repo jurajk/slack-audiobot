@@ -172,7 +172,20 @@ slack.on('message', function(message) {
                     if(platform === 'win32') {
                         winsay.speak("null", toSpeak);
                     } else if(platform === 'linux') {
-                        exec('espeak ' + toSpeak);
+                        exec(`espeak "${toSpeak}" -ven`);
+                    } else {
+                        exec('say ' + toSpeak);
+                    }
+                }
+
+                //TTS - use winsay if on windows, else use say CLI for mac
+                var hasSpeak = message.text.indexOf("povedz"); //search for speak  trigger
+                if((hasSpeak > -1) && (started === true)) {
+                    var toSpeak = message.text.substring(hasSpeak + 4);
+                    if(platform === 'win32') {
+                        winsay.speak("null", toSpeak);
+                    } else if(platform === 'linux') {
+                        exec(`espeak "${toSpeak}" -vsk`);
                     } else {
                         exec('say ' + toSpeak);
                     }
