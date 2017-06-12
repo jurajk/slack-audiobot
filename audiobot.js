@@ -74,10 +74,11 @@ slack.on('message', function(message) {
 
     if(message.type === 'message') {
         //get message text
-        var messageText = message.text.toLowerCase();
+        var messageText = message.text;
         var outputDevice = '';
         var player = 'afplay ';
         if(messageText) {
+	    messageText = messageText.toLowerCase();
             //pick output device 1 = headphones, 2 = speakers (default) - windows only
             if(platform === 'win32') {
                 player = 'mplayer ';
