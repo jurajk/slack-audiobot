@@ -89,6 +89,8 @@ slack.on('message', function(message) {
                     //test not included so play through device 2 (speakers)
                     outputDevice = '-ao dsound:device=2 ';
                 }
+            } else if (platform === 'linux') {
+                player = 'mplayer ';
             } else {
                 outputDevice = '';
             }
