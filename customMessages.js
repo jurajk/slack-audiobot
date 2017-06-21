@@ -19,4 +19,10 @@ module.exports = [
       'nechcelbysom',
     ],
   },
+  {
+    'sound': 'lionking',
+    'messages': [
+      'simba',
+    ],
+  },
 ];
