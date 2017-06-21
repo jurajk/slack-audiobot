@@ -179,9 +179,9 @@ slack.on('message', function(message) {
                 }
 
                 //TTS - use winsay if on windows, else use say CLI for mac
-                var hasSpeak = message.text.indexOf("povedz"); //search for speak  trigger
-                if((hasSpeak > -1) && (started === true)) {
-                    var toSpeak = message.text.substring(hasSpeak + 4);
+                var povedz = message.text.indexOf("povedz"); //search for speak  trigger
+                if((povedz > -1) && (started === true)) {
+                    var toSpeak = message.text.substring(povedz + 4);
                     if(platform === 'win32') {
                         winsay.speak("null", toSpeak);
                     } else if(platform === 'linux') {
